@@ -22,12 +22,13 @@ double obtenerTiempoActual(){
 	struct timespec tsp;
 	clock_gettime(CLOCK_REALTIME, &tsp);
 	double secs = (double)tsp.tv_sec;
-	double nano = (double)tsp.tv_nsec/1000000000.0
+	double nano = (double)tsp.tv_nsec/1000000000.0;
 	return secs+nano;
 }
 
+//Funcion que recibe cada hilo para realizar la suma del subarreglo
 void* funcionHilo(void *arg) {
-	estructura argumentos = (estructura *) arg;
+	estructura *argumentos = (estructura *) arg;
 	int *temp = argumentos->array;
 	int suma = 0;
 
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]) {
 
 		arraySize = atoi(argv[1]);
 		numOfThreads = atoi(argv[2]);
-		sumend = arraySize;
+		//sumend = arraySize;
 
 		int *array = (int *)malloc(arraySize*sizeof(int));
 		for (int i=0;i<arraySize;i++)
