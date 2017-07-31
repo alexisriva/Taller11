@@ -1,5 +1,5 @@
 hilos: hilos.c 
-	gcc -Wall -g hilos.c -lm -o hilos -pthread
+	gcc -Wall -g $^ -lm -o $@ -pthread
 
 .PHONY: clean
 clean:
