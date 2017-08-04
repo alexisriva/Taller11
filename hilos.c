@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
 		//Cuando la división no es exacta
 		if (arraySize % numOfThreads != 0){ 
 			elemxth = ceil(elemxth);
+			printf("%f\n", elemxth);
 			for (int i=0;i<numOfThreads;i+=elemxth) {
 				estructura *structarg = malloc(sizeof(estructura));
 				structarg->ini = i;
@@ -94,11 +95,11 @@ int main(int argc, char *argv[]) {
 			}
 		}	
 		
-		void * sum_parcial = NULL;
+		void *sum_parcial = (void *)malloc(sizeof(long));;
 
 		for (int i=0;i<numOfThreads;i++) {
-			pthread_join(ids[i],&sum_parcial);
-			sumatotal += (long)sum_parcial;
+			pthread_join(ids[i],sum_parcial);
+			sumatotal += *((long *)sum_parcial);
 		}	
 		
 		tiempoFin = obtenerTiempoActual();
