@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
 		else{	     
 			for (int i=0;i<numOfThreads;i+=elemxth) {
 				pthread_t hilo;				
-				estructura *structarg = malloc(sizeof(estructura));
+				estructura *structarg = (estructura *)malloc(sizeof(estructura));
 				structarg->ini = i;
 				structarg->fin = elemxth-1;
 				structarg->array = array;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 			}
 		}	
 		
-		void * sum_parcial = NULL;
+		void * sum_parcial = malloc(sizeof(long));
 
 		for (int i=0;i<numOfThreads;i++) {
 			pthread_join(ids[i],&sum_parcial);
