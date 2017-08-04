@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 	double elemxth = 0;
 	double tiempoInicio = 0;
 	double tiempoFin = 0;
-	pthread_t ids[numOfThreads];
+	pthread_t * ids = (pthread_t *)malloc(sizeof(pthread_t) * numOfThreads);
 
 	if (argc != 3)
 		printf("Uso: ./hilos <tamaño del arreglo> <numero de hilos>\n");
@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
 		if (arraySize % numOfThreads != 0){ 
 			elemxth = ceil(elemxth);
 			for (int i=0;i<numOfThreads;i+=elemxth) {
+				pthread_t hilo;
 				estructura *structarg = malloc(sizeof(estructura));
 				structarg->ini = i;
 				if (i != numOfThreads-1){
@@ -77,7 +78,8 @@ int main(int argc, char *argv[]) {
 					structarg->fin = elemxth;
 				}
 				structarg->array = array;
-				pthread_create(&ids[i],NULL,funcionHilo,(void *)structarg);
+				pthread_create(&hilo,NULL,funcionHilo,(void *)structarg);
+				ids[i]=hilo;
 				elemxth+=elemxth;
 			}
 		}
@@ -85,11 +87,13 @@ int main(int argc, char *argv[]) {
 		//Cuando la división es exacta
 		else{	     
 			for (int i=0;i<numOfThreads;i+=elemxth) {
+				pthread_t hilo;				
 				estructura *structarg = malloc(sizeof(estructura));
 				structarg->ini = i;
 				structarg->fin = elemxth-1;
 				structarg->array = array;
-				pthread_create(&ids[i],NULL,funcionHilo,(void *)structarg);
+				pthread_create(&hilo,NULL,funcionHilo,(void *)structarg);
+				ids[i]=hilo;
 				elemxth+=elemxth;
 			}
 		}	
