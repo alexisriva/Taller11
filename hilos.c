@@ -30,7 +30,7 @@ double obtenerTiempoActual(){
 void *funcionHilo(void *arg) {
 	estructura *argumentos = (estructura *) arg;
 	int *temp = argumentos->array;
-	int suma = 0;
+	long suma = 0;
 
 	for (int i=argumentos->ini; i<=argumentos->fin;i++)
 		suma += *(temp+i);
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 				elemxth+=elemxth;
 			}
 		}	
-		
+
 		void * sum_parcial = malloc(sizeof(long));
 
 		for (int i=0;i<numOfThreads;i++) {
