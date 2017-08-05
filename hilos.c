@@ -47,7 +47,6 @@ int main(int argc, char *argv[]) {
 	double elemxth = 0;
 	double tiempoInicio = 0;
 	double tiempoFin = 0;
-	pthread_t ids[numOfThreads];
 
 	if (argc != 3)
 		printf("Uso: ./hilos <tamaño del arreglo> <numero de hilos>\n");
@@ -57,18 +56,18 @@ int main(int argc, char *argv[]) {
 		arraySize = atoi(argv[1]);
 		numOfThreads = atoi(argv[2]);
 
+		pthread_t *ids = (pthread_t *)malloc(numOfThreads*sizeof(pthread_t));
+
 		int *array = (int *)malloc(arraySize*sizeof(int));
 		for (int i=0;i<arraySize;i++)
 			*(array+i)=aleatorio(1,10);
 
 		elemxth = arraySize/numOfThreads;
-		printf("%f\n", elemxth);
 		
 		if ((arraySize % numOfThreads) != 0) {
 			elemxth = ceil(elemxth);
 			elemxth++;
 		}
-		printf("%f\n", elemxth);
 
 		int inicio = 0;
 		int fin = arraySize - elemxth;
@@ -83,11 +82,9 @@ int main(int argc, char *argv[]) {
 				fin-=elemxth;
 			else
 				fin = 0;
-			printf("%d\n", i+1);
 		}
 
 		for (int i=0;i<numOfThreads;i++) {
-			//printf("dentro 2\n");
 			void * sum_parcial = malloc(sizeof(long));
 			pthread_join(ids[i],sum_parcial);
 			sumatotal += *((long *)sum_parcial);
